@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<bean id="hello" class="com.spring.core.session01.beans.Hello" />
+
+	<bean id="Lotto" scope="prototype"
+		class="com.spring.core.session02.beans.Lotto" />
+	<bean id="Lotto2" scope="singleton"
+		class="com.spring.core.session02.beans.Lotto" />
+
+	<bean id="author1" class="com.spring.core.session02.beans.Author" />
+	<bean id="author2" class="com.spring.core.session02.beans.Author">
+		<property name="name">
+			<value>Vincent</value>
+		</property>
+		<property name="sex">
+			<value>M</value>
+		</property>
+		<property name="Age">
+			<value>30</value>
+		</property>
+	</bean>
+	<bean id="author3" class="com.spring.core.session02.beans.Author">
+		<constructor-arg index="0" value="Mary" />
+		<constructor-arg index="1" value="F" />
+		<constructor-arg index="2" value="28" />
+	</bean>
+	<bean id="author4" class="com.spring.core.session02.beans.Author"
+		p:name="Helen" p:sex="F" p:age="32" />
+	<bean id="author5" class="com.spring.core.session02.beans.Author"
+		c:name="Tom" c:sex="M" c:age="45" />
+
+	<bean id="book1" class="com.spring.core.session02.beans.Book" />
+
+	<bean id="book2" class="com.spring.core.session02.beans.Book">
+		<property name="name">
+			<value>Java</value>
+		</property>
+		<property name="price">
+			<value>500</value>
+		</property>
+		<property name="author" ref="author2" />
+	</bean>
+
+	<bean id="book3" class="com.spring.core.session02.beans.Book">
+		<constructor-arg index="0" value="Spting" />
+		<constructor-arg index="1" value="600" />
+		<constructor-arg index="2" ref="author3" />
+	</bean>
+	<bean id="book4" class="com.spring.core.session02.beans.Book"
+		p:name="Python" p:price="300" p:author-ref="author4" />
+	<bean id="book5" class="com.spring.core.session02.beans.Book"
+		c:name="VB" c:price="300" c:author-ref="author5" />
+
+	<bean id="white" class="com.spring.core.session02.beans.Color"
+		p:name="白色" />
+	<bean id="color" class="com.spring.core.session02.beans.Color"
+		p:name="紅色" />
+	<bean id="a4" class="com.spring.core.session02.beans.Size"
+		p:name="A4" />
+	<bean id="size" class="com.spring.core.session02.beans.Size"
+		p:name="B3" />
+
+	<!-- <bean id="paper1" p:id="101" autowire="byType" class="com.spring.core.session02.beans.Paper" 
+		/> -->
+
+	<bean id="paper2" p:id="202" autowire="byName"
+		class="com.spring.core.session02.beans.Paper" />
+
+	<bean id="paper4" p:id="404" autowire="constructor"
+		class="com.spring.core.session02.beans.Paper" />
+
+	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+		<property name="location" value="data.properties"></property> </bean> -->
+
+	<context:property-placeholder
+		location="data.properties" />
+
+	<bean id="clazz1" p:id="1" p:name="${clazz.name}"
+		p:credit="${class.credit}"
+		class="com.spring.core.session03.beans.Clazz" />
+
+	<bean id="clazz2" p:id="2" p:name="English" p:credit="2"
+		class="com.spring.core.session03.beans.Clazz" />
+
+	<bean id="clazz3" p:id="3" p:name="Math" p:credit="1"
+		class="com.spring.core.session03.beans.Clazz" />
+
+	<bean id="student1" p:id="1" p:name="John"
+		class="com.spring.core.session03.beans.Student">
+		<property name="clazzs">
+			<set>
+				<ref bean="clazz1" />
+				<ref bean="clazz2" />
+				<ref bean="clazz3" />
+			</set>
+		</property>
+	</bean>
+
+	<bean id="student2" p:id="2" p:name="Mary"
+		class="com.spring.core.session03.beans.Student">
+		<property name="clazzs">
+			<set>
+				<ref bean="clazz1" />
+				<ref bean="clazz3" />
+			</set>
+		</property>
+	</bean>
+
+	<bean id="teacher1" p:id="101" p:name="Bob"
+		class="com.spring.core.session03.beans.Teacher">
+		<property name="students">
+			<set>
+				<ref bean="student1" />
+				<ref bean="student2" />
+			</set>
+		</property>
+
+		<property name="subjects">
+			<list>
+				<value>Progran</value>
+				<value>English</value>
+			</list>
+		</property>
+
+		<property name="salary">
+			<map>
+				<entry key="base">
+					<value>50000</value>
+				</entry>
+				<entry key="addition">
+					<value>20000</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<util:set id="students">
+		<ref bean="student1" />
+		<ref bean="student2" />
+	</util:set>
+	
+	<util:list id="subjects">
+		<value>Java</value>
+		<value>English</value>
+		<value>Math</value>
+	</util:list>
+	
+	<util:map id="salary">
+		<entry>
+			<key>
+				<value>Base</value>
+			</key>
+			<value>65000</value>
+		</entry>
+		<entry>
+			<key>
+				<value>Addition</value>
+			</key>
+			<value>22000</value>
+		</entry>
+	</util:map>
+	<bean id="teacher2" p:id="102" p:name="Jean"
+		p:students-ref="students"
+		p:subjects-ref="subjects"
+		p:salary-ref="salary"
+		class="com.spring.core.session03.beans.Teacher" />	
+	
+	<bean id="dbconn" 
+		init-method="init"
+		destroy-method="destroy"
+		class="com.spring.core.session03.beans.DBConn" />
+
+
+	<bean id="carfactory" class="com.spring.core.session03.beans.CarFactory"></bean>
+</beans>
